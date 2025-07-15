@@ -24,6 +24,8 @@ export class AndGate extends Component {
       position,
       onRerenderRequest,
     });
+
+    this.requestUpdate(); // Ensure the logic is run initially
   }
 
   get schematic() {

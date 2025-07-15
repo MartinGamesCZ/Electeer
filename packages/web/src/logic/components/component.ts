@@ -34,6 +34,11 @@ export class Component {
     this.onRerenderRequest?.();
   }
 
+  requestUpdate() {
+    this.logic();
+    this.requestRerender();
+  }
+
   logic() {}
 
   getPinState(pinId: string): "high" | "low" | undefined {

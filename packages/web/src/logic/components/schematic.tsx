@@ -85,7 +85,7 @@ export class ComponentSchematic {
                   top: `${top}px`,
                   transform: "translateY(-50%)",
                 }}
-                onContextMenu={(e) => {
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
 
@@ -121,7 +121,7 @@ export class ComponentSchematic {
                   top: `${top}px`,
                   transform: "translateY(-50%)",
                 }}
-                onContextMenu={(e) => {
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
 

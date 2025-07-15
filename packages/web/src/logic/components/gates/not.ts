@@ -21,6 +21,8 @@ export class NotGate extends Component {
       position,
       onRerenderRequest,
     });
+
+    this.requestUpdate(); // Ensure the logic is run initially
   }
 
   get schematic() {
@@ -30,11 +32,6 @@ export class NotGate extends Component {
       this.schematicOutputPins,
       this.requestUpdate.bind(this)
     );
-  }
-
-  requestUpdate() {
-    this.logic();
-    this.requestRerender();
   }
 
   logic() {
