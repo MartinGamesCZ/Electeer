@@ -2,10 +2,11 @@
 
 import { ElectronicComponents } from "@/logic/components";
 import { Component } from "@/logic/components/component";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function Board() {
   const [components, setComponents] = useState<Component[]>([]);
+  const [_, setRerender] = useState(0);
 
   return (
     <div
@@ -13,11 +14,12 @@ export function Board() {
       onClick={(e) => {
         setComponents((p) => [
           ...p,
-          new ElectronicComponents.gates.and({
+          new ElectronicComponents.gates.not({
             position: {
               x: e.clientX,
               y: e.clientY,
             },
+            onRerenderRequest: () => setRerender((prev) => prev + 1),
           }),
         ]);
       }}

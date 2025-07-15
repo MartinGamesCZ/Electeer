@@ -10,6 +10,10 @@ export class ComponentSchematicInputPin {
     this.id = id;
     this.label = label;
   }
+
+  toggleState() {
+    this.state = this.state === "low" ? "high" : "low";
+  }
 }
 
 export class ComponentSchematicOutputPin {
@@ -17,10 +21,18 @@ export class ComponentSchematicOutputPin {
   label: string;
   type: "output" = "output";
   state: "high" | "low" = "low";
+  manuallyControlled: boolean = false;
 
-  constructor(id: string, label: string) {
+  constructor(id: string, label: string, manuallyControlled: boolean = false) {
     this.id = id;
     this.label = label;
+    this.manuallyControlled = manuallyControlled;
+  }
+
+  toggleState() {
+    if (!this.manuallyControlled) return;
+
+    this.state = this.state === "low" ? "high" : "low";
   }
 }
 
@@ -28,15 +40,18 @@ export class ComponentSchematic {
   icon: IconType;
   inputs: ComponentSchematicInputPin[] = [];
   outputs: ComponentSchematicOutputPin[] = [];
+  requestUpdate: () => void;
 
   constructor(
     icon: IconType = () => null,
     inputs: ComponentSchematicInputPin[] = [],
-    outputs: ComponentSchematicOutputPin[] = []
+    outputs: ComponentSchematicOutputPin[] = [],
+    requestUpdate: () => void = () => {}
   ) {
     this.icon = icon;
     this.inputs = inputs;
     this.outputs = outputs;
+    this.requestUpdate = requestUpdate;
   }
 
   render() {
@@ -70,6 +85,13 @@ export class ComponentSchematic {
                   top: `${top}px`,
                   transform: "translateY(-50%)",
                 }}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  input.toggleState();
+                  this.requestUpdate();
+                }}
               >
                 <p className="text-xs text-center w-full h-full font-mono pt-0.5">
                   {input.state == "low" ? 0 : 1}
@@ -87,24 +109,31 @@ export class ComponentSchematic {
             gap: "20px",
           }}
         >
-          {this.outputs.map((input, index) => {
+          {this.outputs.map((output, index) => {
             const top = pinGap + index * pinGap;
 
             return (
               <div
-                key={input.id}
+                key={output.id}
                 className="border-2 border-gray-600 w-5 h-5 bg-white"
                 style={{
                   position: "absolute",
                   top: `${top}px`,
                   transform: "translateY(-50%)",
                 }}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  output.toggleState();
+                  this.requestUpdate();
+                }}
               >
                 <p className="text-xs text-center w-full h-full font-mono pt-0.5">
-                  {input.state == "low" ? 0 : 1}
+                  {output.state == "low" ? 0 : 1}
                 </p>
                 <p className="text-xs font-mono pt-0.5 absolute left-[-1.25rem] top-0">
-                  {input.label}
+                  {output.label}
                 </p>
               </div>
             );
