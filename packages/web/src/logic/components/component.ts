@@ -1,7 +1,9 @@
+import { generateId } from "@/utils/id";
 import {
   ComponentSchematic,
   ComponentSchematicInputPin,
   ComponentSchematicOutputPin,
+  PinState,
 } from "./schematic";
 
 export class Component {
@@ -11,23 +13,21 @@ export class Component {
     y: number;
   };
   onRerenderRequest?: () => void;
-  protected schematicInputPins: ComponentSchematicInputPin[] = [];
-  protected schematicOutputPins: ComponentSchematicOutputPin[] = [];
+  schematicInputPins: ComponentSchematicInputPin[] = [];
+  schematicOutputPins: ComponentSchematicOutputPin[] = [];
 
   constructor(config: {
     position?: { x: number; y: number };
     onRerenderRequest?: () => void;
   }) {
-    this.id =
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15);
+    this.id = generateId();
 
     this.position = config.position || { x: 0, y: 0 };
     this.onRerenderRequest = config.onRerenderRequest;
   }
 
-  get schematic(): ComponentSchematic {
-    return new ComponentSchematic();
+  getSchematic(): ComponentSchematic {
+    return new ComponentSchematic(this);
   }
 
   requestRerender() {
@@ -41,7 +41,7 @@ export class Component {
 
   logic() {}
 
-  getPinState(pinId: string): "high" | "low" | undefined {
+  getPinState(pinId: string): PinState | undefined {
     if (pinId.startsWith("i")) {
       const inputPin = this.schematicInputPins.find((pin) => pin.id === pinId);
       return inputPin ? inputPin.state : undefined;
@@ -57,7 +57,7 @@ export class Component {
     return undefined; // Pin not found
   }
 
-  setPinState(pinId: string, state: "high" | "low") {
+  setPinState(pinId: string, state: PinState) {
     if (pinId.startsWith("i")) {
       const inputPin = this.schematicInputPins.find((pin) => pin.id === pinId);
 

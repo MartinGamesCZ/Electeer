@@ -4,11 +4,13 @@ import {
   ComponentSchematic,
   ComponentSchematicInputPin,
   ComponentSchematicOutputPin,
+  PinState,
 } from "../schematic";
+import { b, ps } from "@/utils/binary";
 
 export class NotGate extends Component {
-  protected schematicInputPins = [new ComponentSchematicInputPin("i0", "I0")];
-  protected schematicOutputPins = [new ComponentSchematicOutputPin("o0", "O0")];
+  schematicInputPins = [new ComponentSchematicInputPin("i0", "I0")];
+  schematicOutputPins = [new ComponentSchematicOutputPin("o0", "O0")];
 
   constructor({
     position,
@@ -25,8 +27,9 @@ export class NotGate extends Component {
     this.requestUpdate(); // Ensure the logic is run initially
   }
 
-  get schematic() {
+  getSchematic() {
     return new ComponentSchematic(
+      this,
       TbLogicNot,
       this.schematicInputPins,
       this.schematicOutputPins,
@@ -35,13 +38,9 @@ export class NotGate extends Component {
   }
 
   logic() {
-    const input0 = this.getPinState("i0");
+    const input0 = b(this.getPinState("i0"));
 
-    let output0: "low" | "high" = "high";
-
-    if (input0 === "high") {
-      output0 = "low";
-    }
+    let output0: PinState = ps(Number(!input0) as 0 | 1);
 
     this.setPinState("o0", output0);
   }

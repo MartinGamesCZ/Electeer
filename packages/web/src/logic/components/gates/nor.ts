@@ -1,4 +1,4 @@
-import { TbLogicAnd } from "react-icons/tb";
+import { TbLogicAnd, TbLogicOr } from "react-icons/tb";
 import { Component } from "../component";
 import {
   ComponentSchematic,
@@ -8,7 +8,7 @@ import {
 } from "../schematic";
 import { b, ps } from "@/utils/binary";
 
-export class AndGate extends Component {
+export class NorGate extends Component {
   schematicInputPins = [
     new ComponentSchematicInputPin("i0", "I0"),
     new ComponentSchematicInputPin("i1", "I1"),
@@ -33,7 +33,7 @@ export class AndGate extends Component {
   getSchematic() {
     return new ComponentSchematic(
       this,
-      TbLogicAnd,
+      TbLogicOr,
       this.schematicInputPins,
       this.schematicOutputPins,
       this.requestUpdate.bind(this)
@@ -49,7 +49,7 @@ export class AndGate extends Component {
     const input0 = b(this.getPinState("i0"));
     const input1 = b(this.getPinState("i1"));
 
-    let output0: PinState = ps(input0 && input1);
+    let output0: PinState = ps(Number(!(input0 || input1)) as 0 | 1);
 
     this.setPinState("o0", output0);
   }
