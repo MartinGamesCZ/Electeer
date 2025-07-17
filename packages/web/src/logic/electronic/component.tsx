@@ -8,6 +8,8 @@ export class SchematicComponent {
   private position: SchematicComponentPosition;
   public static readonly width: number;
   public static readonly height: number;
+  public readonly width: number = SchematicComponent.width;
+  public readonly height: number = SchematicComponent.height;
   private skin: ComponentSkin;
 
   protected components: SchematicComponent[] = [];
@@ -24,6 +26,9 @@ export class SchematicComponent {
     this.uid = this.generateUid();
     this.position = new SchematicComponentPosition(x, y);
     this.skin = new skin(x, y, w, h, this);
+
+    this.width = w;
+    this.height = h;
   }
 
   protected addComponent(component: SchematicComponent): void {
@@ -38,5 +43,9 @@ export class SchematicComponent {
 
   private generateUid(): string {
     return `${this.id}-${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  getPosition(): SchematicComponentPosition {
+    return this.position;
   }
 }

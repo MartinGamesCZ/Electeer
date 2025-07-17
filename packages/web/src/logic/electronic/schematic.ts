@@ -1,19 +1,36 @@
 import { ReactNode } from "react";
 import { SchematicComponent } from "./component";
-import { PinComponent } from "./components/special/pin";
-import { NotGateComponent } from "./components/builtin/logic_gates/not";
-import { AndGateComponent } from "./components/builtin/logic_gates/and";
-import { VoltageRailComponent } from "./components/special/voltage_rail";
-import { GroundRailComponent } from "./components/special/ground_rail";
+import { isAllowedToPlaceComponent } from "../grid/collision";
 
 export class Schematic {
   private components: SchematicComponent[];
+  private requestUpdate: () => void;
 
-  constructor() {
-    this.components = [new GroundRailComponent(10, 10)];
+  constructor(requestUpdate: () => void) {
+    this.components = [];
+    this.requestUpdate = requestUpdate;
+  }
+
+  placeComponent(component: SchematicComponent): void {
+    if (
+      !isAllowedToPlaceComponent(
+        component.getPosition().getX(),
+        component.getPosition().getY(),
+        component.constructor as typeof SchematicComponent,
+        this.components
+      )
+    )
+      return;
+
+    this.components.push(component);
+    this.requestUpdate();
   }
 
   render(): ReactNode {
     return this.components.map((component) => component.render());
+  }
+
+  getComponents(): SchematicComponent[] {
+    return this.components;
   }
 }
