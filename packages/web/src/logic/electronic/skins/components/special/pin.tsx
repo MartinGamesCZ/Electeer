@@ -36,6 +36,9 @@ export class PinComponentSkin extends ComponentSkin {
           borderRadius: "5px",
           opacity: isPreview ? 0.5 : 1,
         }}
+        onClick={() => {
+          this.component.attachConnection();
+        }}
       >
         <p
           style={{

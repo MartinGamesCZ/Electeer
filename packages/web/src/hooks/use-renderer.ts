@@ -1,12 +1,15 @@
+import { Schematic } from "@/logic/electronic/schematic";
 import { SchematicBoardRenderer } from "@/logic/ui/renderer";
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
-export function useCanvasRenderer(canvasSize: {
-  width: number;
-  height: number;
-}) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
+export function useCanvasRenderer(
+  canvasSize: {
+    width: number;
+    height: number;
+  },
+  schematic: Schematic,
+  canvasRef: RefObject<HTMLCanvasElement | null>
+) {
   const [renderer, setRenderer] = useState<SchematicBoardRenderer>();
 
   const render = useCallback(() => {
@@ -21,9 +24,9 @@ export function useCanvasRenderer(canvasSize: {
 
   useEffect(() => {
     setRenderer(
-      new SchematicBoardRenderer(canvasSize.width, canvasSize.height)
+      new SchematicBoardRenderer(canvasSize.width, canvasSize.height, schematic)
     );
-  }, [canvasSize.width, canvasSize.height]);
+  }, [canvasSize.width, canvasSize.height, schematic]);
 
   useEffect(() => {
     if (!renderer) return;

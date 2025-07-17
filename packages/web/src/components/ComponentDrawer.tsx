@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import {
   TbBolt,
+  TbCircuitChangeover,
   TbCircuitGround,
   TbCircuitSwitchOpen,
+  TbLine,
   TbLogicAnd,
   TbLogicNot,
 } from "react-icons/tb";
@@ -134,6 +136,25 @@ export function ComponentDrawer({
               />
             </div>
           ))}
+      </div>
+      <div className="h-8 px-2 mt-2 mb-2 gap-1 flex flex-row">
+        <div
+          className={
+            "flex p-1 h-8 w-8 rounded-md items-center justify-center " +
+            (selectedComponent == "_.wire" ? "bg-[#6a8a12]" : "")
+          }
+        >
+          <TbLine
+            size={32}
+            className={
+              "inline-block " +
+              (selectedComponent == "_.wire"
+                ? "text-[#d8f28f]"
+                : "text-[#6a8a12]")
+            }
+            onClick={() => onComponentSelect("_.wire")}
+          />
+        </div>
       </div>
     </div>
   );

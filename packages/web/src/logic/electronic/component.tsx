@@ -53,5 +53,6 @@ export class SchematicComponent {
 
   bindSchematic(schematic: Schematic): void {
     this.schematic = schematic;
+    this.components.forEach((component) => component.bindSchematic(schematic));
   }
 }

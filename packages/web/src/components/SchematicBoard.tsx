@@ -20,14 +20,15 @@ interface SchematicBoardProps {
 
 export function SchematicBoard({ selectedComponent }: SchematicBoardProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-
-  const canvasSize = useCanvasSize(rootRef);
-  const canvasRef = useCanvasRenderer(canvasSize);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [_, setUpdate] = useState(0);
   const [schematic, setSchematic] = useState(
-    new Schematic(() => setUpdate(performance.now()))
+    new Schematic(() => setUpdate(performance.now()), canvasRef)
   );
+
+  const canvasSize = useCanvasSize(rootRef);
+  useCanvasRenderer(canvasSize, schematic, canvasRef);
 
   const placementComponentPreview =
     ElectronicComponents[
@@ -115,6 +116,11 @@ export function SchematicBoard({ selectedComponent }: SchematicBoardProps) {
       rootRef.current.removeEventListener("click", handleClick);
     };
   }, [selectedComponent, schematic, rootRef]);
+
+  useEffect(() => {
+    if (selectedComponent == "_.wire") schematic.createConnection();
+    else schematic.endConnection();
+  }, [selectedComponent]);
 
   return (
     <div className="w-full h-full flex relative" ref={rootRef}>

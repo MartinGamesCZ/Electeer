@@ -16,7 +16,7 @@ export class VoltageRailComponent extends SchematicComponent {
       VoltageRailComponentSkin
     );
 
-    const pinOut0 = new PinComponent(x + 5, y + 2); // Output pin
+    const pinOut0 = new PinComponent(x + 5, y + 2, false); // Output pin
 
     pinOut0.setValue(true); // Set the voltage rail to high
 

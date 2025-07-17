@@ -16,7 +16,7 @@ export class GroundRailComponent extends SchematicComponent {
       GroundRailComponentSkin
     );
 
-    const pinOut0 = new PinComponent(x + 5, y + 2); // Output pin
+    const pinOut0 = new PinComponent(x + 5, y + 2, false); // Output pin
 
     pinOut0.setValue(false); // Set the ground rail to low
 

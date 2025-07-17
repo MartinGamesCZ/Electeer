@@ -1,14 +1,27 @@
 import { ReactNode } from "react";
 import { SchematicComponent } from "./component";
 import { isAllowedToPlaceComponent } from "../grid/collision";
+import { Connection } from "./connection";
+import { SchematicConnectionRenderer } from "../ui/renderer";
 
 export class Schematic {
   private components: SchematicComponent[];
-  private requestUpdate: () => void;
+  private connections: Connection[];
 
-  constructor(requestUpdate: () => void) {
+  private currentConnection: Connection | null = null;
+
+  private requestUpdate: () => void;
+  private canvasRef: React.RefObject<HTMLCanvasElement | null>;
+
+  constructor(
+    requestUpdate: () => void,
+    canvasRef: React.RefObject<HTMLCanvasElement | null>
+  ) {
     this.components = [];
+    this.connections = [];
+
     this.requestUpdate = requestUpdate;
+    this.canvasRef = canvasRef;
   }
 
   placeComponent(component: SchematicComponent): void {
@@ -37,5 +50,29 @@ export class Schematic {
 
   getComponents(): SchematicComponent[] {
     return this.components;
+  }
+
+  createConnection() {
+    if (this.currentConnection) return;
+
+    const connection = new Connection(this);
+
+    this.connections.push(connection);
+    this.currentConnection = connection;
+  }
+
+  endConnection() {
+    this.currentConnection = null;
+    this.connections = this.connections.filter(
+      (connection) => !connection.isEmpty()
+    );
+  }
+
+  getCurrentConnection(): Connection | null {
+    return this.currentConnection;
+  }
+
+  getConnections(): Connection[] {
+    return this.connections;
   }
 }
