@@ -9,6 +9,8 @@ import {
   TbLine,
   TbLogicAnd,
   TbLogicNot,
+  TbLogicOr,
+  TbLogicXor,
 } from "react-icons/tb";
 
 const categories = [
@@ -60,6 +62,18 @@ const categories = [
         description: "Outputs the inverse of the input",
         icon: TbLogicNot,
         component: "builtin.logic_gates.not",
+      },
+      {
+        name: "XOR Gate",
+        description: "Outputs true if an odd number of inputs are true",
+        icon: TbLogicXor,
+        component: "builtin.logic_gates.xor",
+      },
+      {
+        name: "OR Gate",
+        description: "Outputs true if at least one input is true",
+        icon: TbLogicOr,
+        component: "builtin.logic_gates.or",
       },
     ],
   },
