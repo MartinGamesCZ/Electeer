@@ -1,0 +1,42 @@
+import { ReactNode } from "react";
+import { SchematicComponentPosition } from "./position";
+import { ComponentSkin } from "./skins/skin";
+
+export class SchematicComponent {
+  private id: string;
+  private uid: string;
+  private position: SchematicComponentPosition;
+  public static readonly width: number;
+  public static readonly height: number;
+  private skin: ComponentSkin;
+
+  protected components: SchematicComponent[] = [];
+
+  constructor(
+    id: string,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    skin: typeof ComponentSkin
+  ) {
+    this.id = id;
+    this.uid = this.generateUid();
+    this.position = new SchematicComponentPosition(x, y);
+    this.skin = new skin(x, y, w, h, this);
+  }
+
+  protected addComponent(component: SchematicComponent): void {
+    this.components.push(component);
+  }
+
+  render(isPreview: boolean = false): ReactNode {
+    return [this.skin, ...this.components].map((component) =>
+      component.render(isPreview)
+    );
+  }
+
+  private generateUid(): string {
+    return `${this.id}-${Math.random().toString(36).substr(2, 9)}`;
+  }
+}
