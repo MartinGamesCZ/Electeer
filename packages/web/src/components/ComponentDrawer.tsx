@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   TbBolt,
   TbCircuitGround,
+  TbCircuitSwitchOpen,
   TbLogicAnd,
   TbLogicNot,
 } from "react-icons/tb";
@@ -25,6 +26,19 @@ const categories = [
         description: "Provides a low voltage level",
         icon: TbCircuitGround,
         component: "special.rail.ground",
+      },
+    ],
+  },
+  {
+    id: "switches",
+    name: "Switches",
+    icon: TbCircuitSwitchOpen,
+    components: [
+      {
+        name: "Switch",
+        description: "A simple switch component",
+        icon: TbCircuitSwitchOpen,
+        component: "builtin.switches.switch",
       },
     ],
   },

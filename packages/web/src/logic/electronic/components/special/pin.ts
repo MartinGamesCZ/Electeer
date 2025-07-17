@@ -9,7 +9,14 @@ export class PinComponent extends SchematicComponent {
   public static readonly height = 2;
 
   constructor(x: number, y: number) {
-    super("special.pin", x, y, 2, 2, PinComponentSkin);
+    super(
+      "special.pin",
+      x,
+      y,
+      PinComponent.width,
+      PinComponent.height,
+      PinComponentSkin
+    );
     this.value = false;
   }
 

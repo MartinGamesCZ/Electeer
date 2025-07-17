@@ -23,7 +23,7 @@ export class ComponentSkin {
     this.component = component;
   }
 
-  render(): ReactNode {
+  render(isPreview: boolean = false, component: SchematicComponent): ReactNode {
     return (
       <div
         key={Math.random().toString(36).substr(2, 9)}

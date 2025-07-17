@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { SchematicComponentPosition } from "./position";
 import { ComponentSkin } from "./skins/skin";
+import { Schematic } from "./schematic";
 
 export class SchematicComponent {
   private id: string;
@@ -13,6 +14,7 @@ export class SchematicComponent {
   private skin: ComponentSkin;
 
   protected components: SchematicComponent[] = [];
+  protected schematic: Schematic | null = null;
 
   constructor(
     id: string,
@@ -37,7 +39,7 @@ export class SchematicComponent {
 
   render(isPreview: boolean = false): ReactNode {
     return [this.skin, ...this.components].map((component) =>
-      component.render(isPreview)
+      component.render(isPreview, this)
     );
   }
 
@@ -47,5 +49,9 @@ export class SchematicComponent {
 
   getPosition(): SchematicComponentPosition {
     return this.position;
+  }
+
+  bindSchematic(schematic: Schematic): void {
+    this.schematic = schematic;
   }
 }

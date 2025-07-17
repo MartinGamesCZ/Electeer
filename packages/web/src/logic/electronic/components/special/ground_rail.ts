@@ -7,7 +7,14 @@ export class GroundRailComponent extends SchematicComponent {
   public static readonly height = 6;
 
   constructor(x: number, y: number) {
-    super("special.rail.ground", x, y, 7, 6, GroundRailComponentSkin);
+    super(
+      "special.rail.ground",
+      x,
+      y,
+      GroundRailComponent.width,
+      GroundRailComponent.height,
+      GroundRailComponentSkin
+    );
 
     const pinOut0 = new PinComponent(x + 5, y + 2); // Output pin
 

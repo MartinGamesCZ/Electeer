@@ -22,7 +22,12 @@ export class Schematic {
     )
       return;
 
+    component.bindSchematic(this);
     this.components.push(component);
+    this.requestUpdate();
+  }
+
+  requestRerender(): void {
     this.requestUpdate();
   }
 

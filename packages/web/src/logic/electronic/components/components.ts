@@ -4,6 +4,7 @@ import { GroundRailComponentSkin } from "../skins/components/special/ground_rail
 import { VoltageRailComponentSkin } from "../skins/components/special/voltage_rail";
 import { AndGateComponent } from "./builtin/logic_gates/and";
 import { NotGateComponent } from "./builtin/logic_gates/not";
+import { SwitchComponent } from "./builtin/switches/switch";
 import { GroundRailComponent } from "./special/ground_rail";
 import { VoltageRailComponent } from "./special/voltage_rail";
 
@@ -12,4 +13,5 @@ export const ElectronicComponents = {
   "builtin.logic_gates.and": AndGateComponent,
   "special.rail.voltage": VoltageRailComponent,
   "special.rail.ground": GroundRailComponent,
+  "builtin.switches.switch": SwitchComponent,
 };
